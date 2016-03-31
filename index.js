@@ -6,19 +6,19 @@ module.exports = {
   config: {
     binary: {
       type: "string",
-      default: "/usr/local/bin/perltidy"
+      default: "/usr/local/bin/masontidy"
     }
   },
 
   activate: function() {
-    atom.commands.add('atom-workspace', 'perltidy:tidy', function() {
+    atom.commands.add('atom-workspace', 'masontidy:tidy', function() {
 
       var editor = atom.workspace.getActiveTextEditor();
-      var path   = atom.config.get('perltidy.binary');
+      var path   = atom.config.get('masontidy.binary');
 
       if (fs.existsSync(path)) {
         var position = editor.getCursorScreenPosition();
-        perlTidy(path, editor.getText(), function (perl) {
+        masontidy(path, editor.getText(), function (perl) {
           editor.transact(function() {
             editor.setText(perl);
             editor.getLastCursor().setScreenPosition(position);
@@ -27,23 +27,23 @@ module.exports = {
       }
 
       else {
-        editor.setText('No Perltidy found at "' + path + '".');
+        editor.setText('No masontidy found at "' + path + '".');
       }
     });
   }
 };
 
-function perlTidy(path, before, cb) {
+function masontidy(path, before, cb) {
 
   var after = '';
-  var perltidy = spawn(path);
-  perltidy.stdin.setEncoding  = 'utf-8';
-  perltidy.stdout.setEncoding = 'utf-8';
-  perltidy.stdin.end(before);
-  perltidy.on('exit', function() {
+  var masontidy = spawn(path);
+  masontidy.stdin.setEncoding  = 'utf-8';
+  masontidy.stdout.setEncoding = 'utf-8';
+  masontidy.stdin.end(before);
+  masontidy.on('exit', function() {
     cb(after);
   });
-  perltidy.stdout.on('data', function(chunk) {
+  masontidy.stdout.on('data', function(chunk) {
     after += chunk;
   });
 }

@@ -1,9 +1,9 @@
 {
-  "name": "perltidy",
+  "name": "masontidy",
   "main": "./index.js",
-  "version": "2.2.0",
-  "description": "Perltidy for Atom.",
-  "repository": "https://github.com/kraih/atom-perltidy",
+  "version": "1.0.0",
+  "description": "Masontidy for Atom.",
+  "repository": "https://github.com/ericcirone/atom-masontidy",
   "engines": {
     "atom": ">=0.174.0"
   },
