@@ -1,29 +1,53 @@
 var fs = require('fs'),
 	spawn = require('child_process').spawn;
 
-module.exports = {
+defaultCfg = {
+	binary: "/usr/local/bin/masontidy",
+	masonVersion: "2",
+	defaultIndent: "4",
+	perlTidyArgs: ""
+};
 
+inputCfg = defaultCfg;
+
+module.exports = {
 	config: {
 		binary: {
+			title: "Binary",
+      		description: "Binary to use for Masontidy.",
 			type: "string",
-			default: "/usr/local/bin/masontidy"
+			default: defaultCfg.binary
 		},
-		args: {
-			"masonVersion": "2",
-			"defaultIndent": "4",
-			"perlTidyArgs": ""
+		masonVersion: {
+			title: "Mason Version",
+      		description: "Mason version to use for Masontidy.",
+			type: "string",
+			default: defaultCfg.masonVersion
+		},
+		defaultIndent: {
+			title: "Indent Size",
+      		description: "Indent Size",
+			type: "string",
+			default: defaultCfg.defaultIndent
 		}
+		// },
+		// perlTidyArgs: {
+		// 	title: "Binary",
+     //  		description: "Default binary to use for Masontidy.",
+		// 	type: "string",
+		// 	default: ""
+		// }
 	},
 
 	activate: function () {
 		atom.commands.add('atom-workspace', 'masontidy:tidy', function () {
 
 			var editor = atom.workspace.getActiveTextEditor();
-			var path = atom.config.get('masontidy.binary');
+			var path = inputCfg.binary;
 
 			if (fs.existsSync(path)) {
 				var position = editor.getCursorScreenPosition();
-				masontidy(path, editor.getText(), atom.config.get('masontidy.args'), function (perl) {
+				masontidy(path, editor.getText(), inputCfg, function (perl) {
 					editor.transact(function () {
 						editor.setText(perl);
 						editor.getLastCursor().setScreenPosition(position);
