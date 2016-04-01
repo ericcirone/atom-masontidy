@@ -3,6 +3,9 @@
   "main": "./index.js",
   "version": "1.0.0",
   "description": "Masontidy for Atom.",
+  "activationCommands": {
+    "atom-workspace": "masontidy:tidy"
+  },
   "repository": "https://github.com/ericcirone/atom-masontidy",
   "engines": {
     "atom": ">=0.174.0"
